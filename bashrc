@@ -66,11 +66,6 @@ export UBUNTUTOOLS_DEBIAN_MIRROR="$DEBOOTSTRAP_MIRROR"
 export QUILT_PATCHES=debian/patches
 export QUILT_REFRESH_ARGS='-p ab --no-timestamps --no-index'
 
-export GIT_PS1_SHOWDIRTYSTATE=1
-export GIT_PS1_SHOWSTASHSTATE=1
-export GIT_PS1_SHOWUNTRACKEDFILES=1
-export GIT_PS1_SHOWUPSTREAM=1
-
 case "$(hostname --short)" in
 	*-gentoo)
 		cat <<-'EOF'
@@ -146,6 +141,10 @@ _tianon_titlebar_cmd() {
 		}
 	'
 }
+export GIT_PS1_SHOWDIRTYSTATE=1
+export GIT_PS1_SHOWSTASHSTATE=1
+export GIT_PS1_SHOWUNTRACKEDFILES=1
+export GIT_PS1_SHOWUPSTREAM=1
 _tianon_prompt_extra() {
 	local extraBits=
 
