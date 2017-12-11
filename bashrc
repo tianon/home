@@ -1,7 +1,14 @@
 # extra bashrc goodies
 # to be sourced at the end of ~/.bashrc
 
-dockerBinDir="$(dirname "$(dirname "$(readlink -f "$BASH_SOURCE")")")"
+# do some fancy footwork to set $HOME if it isn't
+homeDir=~
+: "${HOME:=$homeDir}"
+export HOME
+unset homeDir
+
+dotfilesDir="$(dirname "$(readlink -f "$BASH_SOURCE")")"
+dockerBinDir="$HOME/docker/bin"
 
 alias updog='docker run -it --rm -e TERM'
 if [ -f /etc/systemd/nspawn/gentoo.nspawn ]; then
@@ -31,11 +38,13 @@ fi
 if command -v wminput > /dev/null; then
 	# "unable to open uinput"
 	# sudo modprobe uinput
-	alias wiimote-pink='wminput --wait --config '"$dockerBinDir"'/home/cwiid-wminput-sideways E8:4E:CE:A6:6F:D7'
+	alias wiimote-pink='wminput --wait --config '"$dotfilesDir"'/cwiid-wminput-sideways E8:4E:CE:A6:6F:D7'
 fi
 
-export PATH="$PATH${HOME:+:$HOME/bin}:$dockerBinDir:$dockerBinDir/sbuild"
-source "$dockerBinDir/smart/.bashrc"
+export PATH="$PATH:$HOME/bin:$dotfilesDir/bin:$dockerBinDir:$dockerBinDir/sbuild"
+if [ -r "$dockerBinDir/smart/.bashrc" ]; then
+	source "$dockerBinDir/smart/.bashrc"
+fi
 
 if false; then
 	# this adds completion for "git compare", which throws off my "git com<tab>" for "git commit", and "git compare" won't even work in the way I use "hub"
@@ -46,7 +55,7 @@ if false; then
 	unset hubDir
 fi
 
-unset dockerBinDir
+unset dotfilesDir dockerBinDir
 
 export DEBFULLNAME='Tianon Gravi'
 export DEBEMAIL='tianon@debian.org'
