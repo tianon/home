@@ -148,6 +148,11 @@ export GIT_PS1_SHOWUPSTREAM=1
 _tianon_prompt_extra() {
 	local extraBits=
 
+	if [ -n "${DOCKER_HOST:-}" ]; then
+		[ -z "$extraBits" ] || extraBits+='; '
+		extraBits+="$DOCKER_HOST"
+	fi
+
 	local gitBits="$(__git_ps1 '%s' 2>/dev/null)"
 	if [ -n "$gitBits" ]; then
 		[ -z "$extraBits" ] || extraBits+='; '
