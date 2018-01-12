@@ -32,6 +32,7 @@ if [ -f /etc/systemd/nspawn/gentoo.nspawn ]; then
 			--uid tianon \
 			--property WorkingDirectory=/home/tianon \
 			--quiet --wait $tty \
+			--setenv DISPLAY="$DISPLAY" \
 			"$@"
 	}
 fi
