@@ -6,6 +6,7 @@ scriptencoding utf-8
 set nocompatible
 
 " see also https://github.com/tpope/vim-sensible
+" (which should be cloned inside ~/.vim/pack/tianon/start/vim-sensible)
 
 " display incomplete commands
 set showcmd
