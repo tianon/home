@@ -1,0 +1,21 @@
+[submodule "vim-pack-tianon/start/jellybeans"]
+	path = vim-pack-tianon/start/jellybeans
+	url = https://github.com/nanotech/jellybeans.vim.git
+[submodule "vim-pack-tianon/start/rainbow"]
+	path = vim-pack-tianon/start/rainbow
+	url = https://github.com/luochen1990/rainbow.git
+[submodule "vim-pack-tianon/start/vim-afterimage"]
+	path = vim-pack-tianon/start/vim-afterimage
+	url = https://github.com/tpope/vim-afterimage.git
+[submodule "vim-pack-tianon/start/vim-eunuch"]
+	path = vim-pack-tianon/start/vim-eunuch
+	url = https://github.com/tpope/vim-eunuch.git
+[submodule "vim-pack-tianon/start/vim-sensible"]
+	path = vim-pack-tianon/start/vim-sensible
+	url = https://github.com/tpope/vim-sensible.git
+[submodule "vim-pack-tianon/start/vim-smali"]
+	path = vim-pack-tianon/start/vim-smali
+	url = https://github.com/kelwin/vim-smali.git
+[submodule "vim-pack-tianon/start/vim-vividchalk"]
+	path = vim-pack-tianon/start/vim-vividchalk
+	url = https://github.com/tpope/vim-vividchalk.git
