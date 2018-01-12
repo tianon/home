@@ -32,3 +32,8 @@ for f in "${!files[@]}"; do
 		echo "${files[$f]}" >> "$f"
 	fi
 done
+
+if [ ! -d "$HOME/.vim/pack/tianon" ]; then
+	mkdir -p "$HOME/.vim/pack"
+	ln -sfT "$thisDir/vim-pack-tianon" "$HOME/.vim/pack/tianon"
+fi
