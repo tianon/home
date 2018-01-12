@@ -1,5 +1,5 @@
-#!/bin/bash
-set -e
+#!/usr/bin/env bash
+set -Eeuo pipefail
 
 IFS=$'\n'
 randomWords=( $(cat /usr/share/dict/* | shuf -n4) )
