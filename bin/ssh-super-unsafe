@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
+self="${0:-ssh}"
+self="$(basename "$self")"
+
+self="${self%-super-unsafe}"
+
 set -x
-exec ssh -o userKnownHostsFile=/dev/null -o strictHostKeyChecking=no "$@"
+exec "$self" -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "$@"
