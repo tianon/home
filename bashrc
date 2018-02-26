@@ -154,6 +154,11 @@ _tianon_prompt_extra() {
 		extraBits+="$DOCKER_HOST"
 	fi
 
+	if [ -n "${BASHBREW_ARCH:-}" ]; then
+		[ -z "$extraBits" ] || extraBits+='; '
+		extraBits+="bashbrew:$BASHBREW_ARCH"
+	fi
+
 	local gitBits="$(__git_ps1 '%s' 2>/dev/null)"
 	if [ -n "$gitBits" ]; then
 		[ -z "$extraBits" ] || extraBits+='; '
