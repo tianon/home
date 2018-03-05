@@ -189,8 +189,8 @@ declare -A colors=(
 	[colon]='' # :
 	[path]='' # ~/docker/...
 	[extra]='' # (master=)
-	[dollar]='' # $
 )
+_tianon_dollar_color= # $
 if [ -n "$color" ]; then
 	numColors="$(tput colors 2>/dev/null || :)"
 	colors=(
@@ -203,8 +203,8 @@ if [ -n "$color" ]; then
 		[colon]='\e[1;30m' # :
 		[path]='\e[1;34m' # ~/docker/...
 		[extra]='\e[0;32m' # (master=)
-		[dollar]='\e[0;31m' # $
 	)
+	_tianon_dollar_color='\e[0;31m' # $
 	case "${numColors:-'8'}" in
 		256)
 			colors[date]='\e[0;38;5;56m'
@@ -214,16 +214,41 @@ if [ -n "$color" ]; then
 			colors[colon]='\e[0;38;5;166m'
 			colors[path]='\e[0;38;5;26m'
 			colors[extra]='\e[0;38;5;100m'
-			colors[dollar]='\e[0;38;5;201m'
+			_tianon_dollar_color='\e[0;38;5;201m'
 			;;
 	esac
 	unset numColors
 fi
 
+_tianon_prompt_dollar_color() {
+	if [ "$1" = '0' ]; then
+		echo -e "$_tianon_dollar_color"
+	else
+		# if the previous command failed, change the prompt color
+		echo -e '\e[1;33m'
+	fi
+}
+
+# "$?" in PS1 is silly, and each subshell clobbers the previous $? value, so we have to propagate that exit code through _every_ subshell for all subshells to get it
+# more succinctly,
+#     PS1='$(echo $?) $(echo $?) $ '
+# would lead to a prompt of
+#     '1 0 $ '
+# (following a command whose exit code was 1)
+#     PS1='$(_tianon_ps1 echo $?) $(_tianon_ps1 echo $?) $ '
+# would lead to a prompt of
+#     '1 1 $ '
+# (which is what we would expect and intend instead)
+_tianon_ps1() {
+	local ret="$?"
+	"$@"
+	exit "$ret"
+}
+
 dateFormat='%H:%M:%S'
 
-PS1='\['${colors[date]}'\]$(date +"'$dateFormat'")\['${colors[recap]}'\] ... \$ $(_tianon_history_1)\['${colors[reset]}'\]\n'
-PS1+='\['${colors[user]}'\]\u@\['${colors[host]}'\]\h\['${colors[colon]}'\]:\['${colors[path]}'\]\w\['${colors[extra]}'\]$(_tianon_prompt_extra)\['${colors[dollar]}'\]\$\['${colors[reset]}'\] '
+PS1='\['${colors[date]}'\]$(_tianon_ps1 date +"'$dateFormat'")\['${colors[recap]}'\] ... \$ $(_tianon_ps1 _tianon_history_1)\['${colors[reset]}'\]\n'
+PS1+='\['${colors[user]}'\]\u@\['${colors[host]}'\]\h\['${colors[colon]}'\]:\['${colors[path]}'\]\w\['${colors[extra]}'\]$(_tianon_ps1 _tianon_prompt_extra)\[$(_tianon_ps1 _tianon_prompt_dollar_color "$?")\]\$\['${colors[reset]}'\] '
 
 # PS0: http://stromberg.dnsalias.org/~strombrg/PS0-prompt/
 PS0=${colors[date]}'$(date +"'$dateFormat'")'${colors[recap]}' ... \$ $(_tianon_history_1)'${colors[reset]}'\n'
@@ -239,9 +264,9 @@ unset color colors dateFormat
 # if this is an xterm set the title to user@host:dir
 case "${TERM:-}" in
 	xterm*|rxvt*)
-		titlebarBits='\e]0;[\h] $(_tianon_titlebar_cmd) {\u, \w}\a'
+		titlebarBits='\e]0;[\h] $(_tianon_ps1 _tianon_titlebar_cmd) {\u, \w}\a'
 		PS0+="$titlebarBits"
-		PS1="\[$titlebarBits\]$PS1"
+		PS1+="\[$titlebarBits\]"
 		unset titlebarBits
 		;;
 esac
