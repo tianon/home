@@ -241,7 +241,7 @@ _tianon_prompt_dollar_color() {
 # (which is what we would expect and intend instead)
 _tianon_ps1() {
 	local ret="$?"
-	"$@"
+	"$@" || :
 	exit "$ret"
 }
 
