@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+set -x
+sudo smart-live-rebuild -- -av --keep-going
+sudo emerge -uDNav world --verbose-conflicts --with-bdeps=y --backtrack=30
