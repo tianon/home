@@ -19,3 +19,6 @@
 [submodule "vim-pack-tianon/start/vim-vividchalk"]
 	path = vim-pack-tianon/start/vim-vividchalk
 	url = https://github.com/tpope/vim-vividchalk.git
+[submodule "vim-pack-tianon/start/mojo.vim"]
+	path = vim-pack-tianon/start/mojo.vim
+	url = https://github.com/yko/mojo.vim.git
