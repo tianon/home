@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
+news="$(eselect news count new)"
+if [ "$news" != '0' ]; then
+	eselect news list
+	sleep 10
+fi
+
 set -x
-sudo smart-live-rebuild -- -av --keep-going
 sudo emerge -uDNav world --verbose-conflicts --with-bdeps=y --backtrack=30
+sudo smart-live-rebuild -- -av --keep-going
