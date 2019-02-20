@@ -11,6 +11,7 @@ dotfilesDir="$(dirname "$(readlink -f "$BASH_SOURCE")")"
 dockerBinDir="$HOME/docker/bin"
 
 alias updog='docker run -it --rm -e TERM'
+alias docker-follow='docker attach --no-stdin --sig-proxy=false'
 if [ -f /etc/systemd/nspawn/gentoo.nspawn ]; then
 	#alias gentoo='sudo machinectl shell --quiet --setenv DISPLAY="$DISPLAY" tianon@gentoo'
 	gentoo() {
