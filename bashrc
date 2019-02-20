@@ -173,7 +173,7 @@ _tianon_prompt_extra() {
 # set a fancy prompt (non-color, unless we know we "want" color)
 color=
 case "${TERM:-}" in
-	xterm-color|*-256color) color=1 ;;
+	xterm-color | *-256color | vt220 ) color=1 ;;
 	*)
 		if command -v tput > /dev/null && tput setaf 1 &> /dev/null; then
 			color=1
