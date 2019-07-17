@@ -94,6 +94,9 @@ let g:markdown_fenced_languages = [
 			\ 'shell=sh',
 			\ 'yaml' ]
 
+" enable optional support for Perl's "method signatures" highlighting :D
+let g:perl_sub_signatures = 1
+
 colorscheme jellybeans
 
 " adjust markdown code colors
