@@ -2,7 +2,7 @@
 set -Eeuo pipefail
 
 set -x
-sudo apt update
+sudo apt update || :
 sleep 1
 sudo apt update
 sudo apt dist-upgrade --purge --auto-remove
