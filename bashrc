@@ -68,7 +68,8 @@ export UBUNTUTOOLS_DEBIAN_MIRROR="$DEBOOTSTRAP_MIRROR"
 export QUILT_PATCHES=debian/patches
 export QUILT_REFRESH_ARGS='-p ab --no-timestamps --no-index'
 
-case "$(hostname --short)" in
+shortHostname="$(exec 2>/dev/null; hostname --short || hostname -s || hostname || :)"
+case "$shortHostname" in
 	*-gentoo)
 		cat <<-'EOF'
 
@@ -110,6 +111,7 @@ case "$(hostname --short)" in
 		EOF
 		;;
 esac
+unset shortHostname
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
@@ -243,16 +245,17 @@ _tianon_prompt_dollar_color() {
 _tianon_ps1() {
 	local ret="$?"
 	"$@" || :
-	exit "$ret"
+	return "$ret"
 }
 
 dateFormat='%H:%M:%S'
 
-PS1='\['${colors[date]}'\]$(_tianon_ps1 date +"'$dateFormat'")\['${colors[recap]}'\] ... \$ $(_tianon_ps1 _tianon_history_1)\['${colors[reset]}'\]\n'
+PS1=
+PS1+='\['${colors[date]}'\]\D{'"$dateFormat"'}\['${colors[recap]}'\] ... \$ $(_tianon_ps1 _tianon_history_1)\['${colors[reset]}'\]'$'\n'
 PS1+='\['${colors[user]}'\]\u@\['${colors[host]}'\]\h\['${colors[colon]}'\]:\['${colors[path]}'\]\w\['${colors[extra]}'\]$(_tianon_ps1 _tianon_prompt_extra)\[$(_tianon_ps1 _tianon_prompt_dollar_color "$?")\]\$\['${colors[reset]}'\] '
 
 # PS0: http://stromberg.dnsalias.org/~strombrg/PS0-prompt/
-PS0=${colors[date]}'$(date +"'$dateFormat'")'${colors[recap]}' ... \$ $(_tianon_history_1)'${colors[reset]}'\n'
+PS0=${colors[date]}'\D{'"$dateFormat"'}'${colors[recap]}' ... \$ $(_tianon_history_1)'${colors[reset]}$'\n'
 
 if [ -z "${colors[date]:-}" ]; then
 	# if we have no date colors, add more whitespace to visually compensate
