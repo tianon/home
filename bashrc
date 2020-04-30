@@ -7,11 +7,13 @@ homeDir=~
 export HOME
 unset homeDir
 
-dotfilesDir="$(dirname "$(readlink -f "$BASH_SOURCE")")"
+dotfilesDir="$(readlink -f "$BASH_SOURCE")"
+dotfilesDir="$(dirname "$dotfilesDir")"
 dockerBinDir="$HOME/docker/bin"
 
 alias updog='docker run -it --rm -e TERM'
 alias docker-follow='docker attach --no-stdin --sig-proxy=false'
+
 if [ -f /etc/systemd/nspawn/gentoo.nspawn ]; then
 	#alias gentoo='sudo machinectl shell --quiet --setenv DISPLAY="$DISPLAY" tianon@gentoo'
 	gentoo() {
@@ -37,27 +39,19 @@ if [ -f /etc/systemd/nspawn/gentoo.nspawn ]; then
 			"$@"
 	}
 fi
-if command -v wminput > /dev/null; then
-	# "unable to open uinput"
-	# sudo modprobe uinput
-	alias wiimote-pink='wminput --wait --config '"$dotfilesDir"'/cwiid-wminput-sideways E8:4E:CE:A6:6F:D7'
-fi
 
 export PATH="$PATH:$HOME/bin:$dotfilesDir/bin:$dockerBinDir:$dockerBinDir/sbuild"
 if [ -r "$dockerBinDir/smart/.bashrc" ]; then
 	source "$dockerBinDir/smart/.bashrc"
 fi
 
-if false; then
-	# this adds completion for "git compare", which throws off my "git com<tab>" for "git commit", and "git compare" won't even work in the way I use "hub"
-	hubDir="$(dirname "$(readlink -f "$dockerBinDir/hub")")"
-	if [ -f "$hubDir/../etc/hub.bash_completion.sh" ]; then
-		source "$hubDir/../etc/hub.bash_completion.sh"
-	fi
-	unset hubDir
-fi
-
 unset dotfilesDir dockerBinDir
+
+# make "docker-compose build" actually use "docker build" under the covers
+export COMPOSE_DOCKER_CLI_BUILD=1
+# https://github.com/docker/compose/releases/tag/1.25.0
+# https://github.com/docker/compose/commit/cacbcccc0c68bfcd33f4707bd388b1441523c521 + https://github.com/docker/compose/commit/5add9192ac52a5c72ecc1495aa68cbfeb5a8e863
+# https://www.docker.com/blog/faster-builds-in-compose-thanks-to-buildkit-support/
 
 export DEBFULLNAME='Tianon Gravi'
 export DEBEMAIL='tianon@debian.org'
@@ -98,6 +92,7 @@ case "$shortHostname" in
 		  Adama: Grab your gun and bring in the cat.
 		  Starbuck: Boom, boom, boom!
 
+
 		EOF
 		;;
 
@@ -127,7 +122,7 @@ HISTSIZE=400000000
 HISTFILESIZE=$(( HISTSIZE * 2 ))
 
 case "${COLORTERM:-}" in
-	gnome-terminal|mate-terminal|xfce4-terminal)
+	gnome-terminal | mate-terminal | xfce4-terminal)
 		export TERM='xterm-256color'
 		;;
 esac
@@ -151,6 +146,11 @@ export GIT_PS1_SHOWUNTRACKEDFILES=1
 export GIT_PS1_SHOWUPSTREAM=1
 _tianon_prompt_extra() {
 	local extraBits=
+
+	if [ -n "${WSL_DISTRO_NAME:-}" ]; then
+		[ -z "$extraBits" ] || extraBits+='; '
+		extraBits+="wsl:$WSL_DISTRO_NAME"
+	fi
 
 	if [ -n "${DOCKER_HOST:-}" ]; then
 		[ -z "$extraBits" ] || extraBits+='; '
@@ -176,7 +176,7 @@ _tianon_prompt_extra() {
 # set a fancy prompt (non-color, unless we know we "want" color)
 color=
 case "${TERM:-}" in
-	xterm-color | *-256color | vt220 ) color=1 ;;
+	xterm-color | *-256color | vt220) color=1 ;;
 	*)
 		if command -v tput > /dev/null && tput setaf 1 &> /dev/null; then
 			color=1
@@ -195,7 +195,6 @@ declare -A colors=(
 )
 _tianon_dollar_color= # $
 if [ -n "$color" ]; then
-	numColors="$(tput colors 2>/dev/null || :)"
 	colors=(
 		[reset]='\e[m'
 
@@ -206,9 +205,12 @@ if [ -n "$color" ]; then
 		[colon]='\e[1;30m' # :
 		[path]='\e[1;34m' # ~/docker/...
 		[extra]='\e[0;32m' # (master=)
+
+		[non_tianon_user]='\e[4;93m' # steam@..., root@..., etc
 	)
 	_tianon_dollar_color='\e[0;31m' # $
-	case "${numColors:-'8'}" in
+	numColors="$(tput colors 2>/dev/null || :)"
+	case "${numColors:-8}" in
 		256)
 			colors[date]='\e[0;38;5;56m'
 			colors[recap]='\e[0;38;5;237m'
@@ -217,11 +219,19 @@ if [ -n "$color" ]; then
 			colors[colon]='\e[0;38;5;166m'
 			colors[path]='\e[0;38;5;26m'
 			colors[extra]='\e[0;38;5;100m'
+			colors[non_tianon_user]='\e[4;38;5;15m'
 			_tianon_dollar_color='\e[0;38;5;201m'
 			;;
 	esac
 	unset numColors
 fi
+
+user="$(id -un 2>/dev/null || :)"
+if [ "$user" != 'tianon' ] && [ -n "${colors[non_tianon_user]:-}" ]; then
+	# if I'm not "tianon" make it more obvious
+	colors[user]="${colors[non_tianon_user]}"
+fi
+unset user
 
 _tianon_prompt_dollar_color() {
 	if [ "$1" = '0' ]; then
@@ -267,7 +277,7 @@ unset color colors dateFormat
 
 # if this is an xterm set the title to user@host:dir
 case "${TERM:-}" in
-	xterm*|rxvt*)
+	xterm* | rxvt*)
 		titlebarBits='\e]0;[\h] $(_tianon_ps1 _tianon_titlebar_cmd) {\u, \w}\a'
 		PS0+="$titlebarBits"
 		PS1+="\[$titlebarBits\]"
