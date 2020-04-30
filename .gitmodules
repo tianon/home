@@ -13,9 +13,6 @@
 [submodule "vim-pack-tianon/start/vim-sensible"]
 	path = vim-pack-tianon/start/vim-sensible
 	url = https://github.com/tpope/vim-sensible.git
-[submodule "vim-pack-tianon/start/vim-smali"]
-	path = vim-pack-tianon/start/vim-smali
-	url = https://github.com/kelwin/vim-smali.git
 [submodule "vim-pack-tianon/start/vim-vividchalk"]
 	path = vim-pack-tianon/start/vim-vividchalk
 	url = https://github.com/tpope/vim-vividchalk.git
@@ -25,3 +22,12 @@
 [submodule "vim-pack-tianon/start/jenkinsfile"]
 	path = vim-pack-tianon/start/jenkinsfile
 	url = https://github.com/martinda/Jenkinsfile-vim-syntax.git
+[submodule "vim-pack-tianon/start/nginx.vim"]
+	path = vim-pack-tianon/start/nginx.vim
+	url = https://github.com/chr4/nginx.vim.git
+[submodule "vim-pack-tianon/start/vim-perl"]
+	path = vim-pack-tianon/start/vim-perl
+	url = https://github.com/vim-perl/vim-perl.git
+[submodule "vim-pack-tianon/start/vim-ps1"]
+	path = vim-pack-tianon/start/vim-ps1
+	url = https://github.com/PProvost/vim-ps1.git
