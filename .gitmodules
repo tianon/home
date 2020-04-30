@@ -22,3 +22,6 @@
 [submodule "vim-pack-tianon/start/mojo.vim"]
 	path = vim-pack-tianon/start/mojo.vim
 	url = https://github.com/yko/mojo.vim.git
+[submodule "vim-pack-tianon/start/jenkinsfile"]
+	path = vim-pack-tianon/start/jenkinsfile
+	url = https://github.com/martinda/Jenkinsfile-vim-syntax.git
