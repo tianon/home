@@ -102,6 +102,9 @@ colorscheme jellybeans
 " adjust markdown code colors
 au FileType markdown highlight markdownCode ctermfg=DarkGreen guifg=DarkGreen
 
+" match more filename variations as Dockerfiles
+au BufNewFile,BufRead [Dd]ockerfile,[Dd]ockerfile*.*,*.*[Dd]ockerfile set filetype=dockerfile
+
 " visual (and colorful) whitespace
 if has('multi_byte')
 	set list listchars=tab:»·,nbsp:_,extends:¬
