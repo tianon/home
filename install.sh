@@ -8,9 +8,9 @@ sed -ri 's!^(HIST[A-Z]*SIZE=)!#\1!' "$HOME/.bashrc"
 declare -A files=(
 	["$HOME/.bashrc"]="source '$thisDir/bashrc'"
 	["$HOME/.inputrc"]="\$include $thisDir/inputrc"
+	["$HOME/.ssh/config"]="Include $thisDir/ssh-config.d/*"
 	["$HOME/.tmux.conf"]="source-file '$thisDir/tmux.conf'"
 	["$HOME/.vimrc"]="source $thisDir/vimrc"
-	["$HOME/.ssh/config"]="Include $thisDir/ssh-config.d/*"
 )
 
 if [ ! -d "$HOME/.ssh" ]; then
