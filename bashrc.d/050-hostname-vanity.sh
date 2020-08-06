@@ -4,6 +4,6 @@ if [[ "$shortHostname" == *-gentoo ]]; then
 fi
 thisDir="$(dirname "$BASH_SOURCE")"
 if [ -r "$thisDir/.hostname-vanity/$shortHostname" ]; then
-	< "$thisDir/.hostname-vanity/$shortHostname"
+	cat "$thisDir/.hostname-vanity/$shortHostname"
 fi
 unset shortHostname thisDir
