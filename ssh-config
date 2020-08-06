@@ -1,0 +1,18 @@
+HashKnownHosts no
+ExitOnForwardFailure yes
+UpdateHostKeys ask
+
+# seconds between pings
+ServerAliveInterval 30
+# pings before disconnect
+ServerAliveCountMax 10
+# 30 * 10 == 300 seconds before disconnect
+
+Include ~/.ssh/config.d/*
+
+Match all
+	# use sockets if they're available
+	ControlPath ~/.ssh/sockets/%r@%h-%p
+	# and if they're not, make it so
+	ControlPersist 15m
+	ControlMaster auto
