@@ -1,0 +1,4 @@
+Host github.com gist.github.com
+	User git
+
+# vim:set ft=sshconfig:
