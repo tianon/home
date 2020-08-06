@@ -1,0 +1,15 @@
+#
+# Files I never want to accidentally commit.
+#
+# Use ".git/info/exclude" if there are more files you want to add to this list that only make sense for your local usage!
+#
+# Having them here makes Git remind me to keep them secret+safe and forces me to jump through extra hoops to actually commit them:
+#
+#  $ git add ssh-config.d/foo
+#  The following paths are ignored by one of your .gitignore files:
+#    The following paths are ignored by one of your .gitignore files:
+#    ssh-config.d/foo
+#    Use -f if you really want to add them.
+# 
+
+ssh-config.d/*
