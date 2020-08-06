@@ -10,7 +10,13 @@ declare -A files=(
 	["$HOME/.inputrc"]="\$include $thisDir/inputrc"
 	["$HOME/.tmux.conf"]="source-file '$thisDir/tmux.conf'"
 	["$HOME/.vimrc"]="source $thisDir/vimrc"
+	["$HOME/.ssh/config"]="Include $thisDir/ssh-config.d/*"
 )
+
+if [ ! -d "$HOME/.ssh" ]; then
+	mkdir "$HOME/.ssh"
+	chmod 700 "$HOME/.ssh"
+fi
 
 for f in "${!files[@]}"; do
 	if [[ "$f" == */.vimrc ]]; then
@@ -32,16 +38,6 @@ for f in "${!files[@]}"; do
 		echo "${files[$f]}" >> "$f"
 	fi
 done
-
-if [ ! -d "$HOME/.ssh" ]; then
-	mkdir "$HOME/.ssh"
-	chmod 700 "$HOME/.ssh"
-fi
-if [ ! -f "$HOME/.ssh/config" ]; then
-	ln -sfT "$thisDir/ssh-config" "$HOME/.ssh/config"
-elif [ ! -L "$HOME/.ssh/config" ]; then
-	echo >&2 "WARNING: '$HOME/.ssh/config' is not a symlink!"
-fi
 
 if [ ! -d "$HOME/.vim/pack/tianon" ]; then
 	mkdir -p "$HOME/.vim/pack"

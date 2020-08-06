@@ -1,0 +1,8 @@
+Match all
+	# use sockets if they're available
+	ControlPath ~/.ssh/sockets/%r@%h-%p
+	# and if they're not, make it so
+	ControlPersist 15m
+	ControlMaster auto
+
+# vim:set ft=sshconfig:
