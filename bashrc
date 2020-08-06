@@ -9,22 +9,15 @@ unset homeDir
 
 dotfilesDir="$(readlink -f "$BASH_SOURCE")"
 dotfilesDir="$(dirname "$dotfilesDir")"
-dockerBinDir="$HOME/docker/bin"
+
+export PATH="$PATH:$HOME/bin:$dotfilesDir/bin"
 
 for dotfileSource in "$dotfilesDir"/bashrc.d/*.sh; do
 	source "$dotfileSource"
 done
 unset dotfileSource
 
-alias updog='docker run -it --rm -e TERM'
-alias docker-follow='docker attach --no-stdin --sig-proxy=false'
-
-export PATH="$PATH:$HOME/bin:$dotfilesDir/bin:$dockerBinDir:$dockerBinDir/sbuild"
-if [ -r "$dockerBinDir/smart/.bashrc" ]; then
-	source "$dockerBinDir/smart/.bashrc"
-fi
-
-unset dotfilesDir dockerBinDir
+unset dotfilesDir
 
 # make "docker-compose build" actually use "docker build" under the covers
 export COMPOSE_DOCKER_CLI_BUILD=1
@@ -40,52 +33,6 @@ export UBUNTUTOOLS_DEBIAN_MIRROR="$DEBOOTSTRAP_MIRROR"
 # quilt is much amaze: https://wiki.debian.org/UsingQuilt#Using_quilt_with_Debian_source_packages
 export QUILT_PATCHES=debian/patches
 export QUILT_REFRESH_ARGS='-p ab --no-timestamps --no-index'
-
-shortHostname="$(exec 2>/dev/null; hostname --short || hostname -s || hostname || :)"
-case "$shortHostname" in
-	*-gentoo)
-		cat <<-'EOF'
-
-		  Gentoo is for Ricers.
-
-		EOF
-		;;
-
-	biers)
-		cat <<-'EOF'
-
-
-		  Aaron Doral: The Hybrid objects.
-		  D'Anna Biers: She doesn't get a vote.  Jump the ship.
-
-
-		EOF
-		;;
-
-	viper)
-		cat <<-'EOF'
-
-
-		  Adama: What do you hear?
-		  Starbuck: Nothing but the rain.
-		  Adama: Grab your gun and bring in the cat.
-		  Starbuck: Boom, boom, boom!
-
-
-		EOF
-		;;
-
-	zoe)
-		cat <<-'EOF'
-
-
-		    Lacy [to Zoe]: Do you realize you're six feet tall and weigh a ton?
-
-
-		EOF
-		;;
-esac
-unset shortHostname
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
