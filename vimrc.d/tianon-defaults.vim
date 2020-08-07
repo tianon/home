@@ -24,6 +24,7 @@ let g:markdown_fenced_languages = [
 			\ 'ini=dosini',
 			\ 'perl',
 			\ 'python',
+			\ 'sh',
 			\ 'shell=sh',
 			\ 'yaml' ]
 
