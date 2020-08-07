@@ -3,7 +3,9 @@ set -Eeuo pipefail
 
 thisDir="$(dirname "$(readlink -f "$BASH_SOURCE")")"
 
-sed -ri 's!^(HIST[A-Z]*SIZE=)!#\1!' "$HOME/.bashrc"
+if [ -e "$HOME/.bashrc" ]; then
+	sed -ri 's!^(HIST[A-Z]*SIZE=)!#\1!' "$HOME/.bashrc"
+fi
 
 declare -A files=(
 	["$HOME/.bashrc"]="source '$thisDir/bashrc'"
