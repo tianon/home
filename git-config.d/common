@@ -2,4 +2,8 @@
 
 [core]
 	editor = vim
-# TODO
+
+# TODO add more entries
+
+# TODO implement https://blog.wizardsoftheweb.pro/sort-git-config/ but also somehow handle comments sanely (make them part of their section)
+#   bonus points for sorting *around* [include(If)] sections, since they're position-dependent
