@@ -1,7 +1,8 @@
 shortHostname="$(exec 2>/dev/null; hostname --short || hostname -s || hostname || :)"
-if [[ "$shortHostname" == *-gentoo ]]; then
-	shortHostname='gentoo'
-fi
+case "$shortHostname" in
+	*-gentoo) shortHostname='gentoo' ;;
+	rpi[0-9]*) shortHostname='rpi' ;;
+esac
 thisDir="$(dirname "$BASH_SOURCE")"
 if [ -r "$thisDir/.hostname-vanity/$shortHostname" ]; then
 	cat "$thisDir/.hostname-vanity/$shortHostname"
