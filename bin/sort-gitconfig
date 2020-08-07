@@ -4,6 +4,8 @@ set -Eeuo pipefail
 # inspired by https://blog.wizardsoftheweb.pro/sort-git-config/
 # adpated to handle "[include(If)]" sections (which are position/order dependent), comments, and more syntax edge cases :D
 
+# TODO add getopt so this can still take "-w" and handle multiple files
+
 file="$1"; shift
 
 write=
