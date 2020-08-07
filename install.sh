@@ -14,6 +14,11 @@ declare -A files=(
 	["$HOME/.tmux.conf"]="source-file '$thisDir/tmux.conf'"
 )
 
+# Debian includes a default ~/.profile that loads bashrc, but Alpine doesn't, so if ~/.profile doesn't exist or doesn't mention bashrc, let's adjust it too
+if [ ! -e "$HOME/.profile" ] || ! grep -q bashrc "$HOME/.profile"; then
+	files["$HOME/.profile"]='[ -z "$BASH_VERSION" ] || . "$HOME/.bashrc"'
+fi
+
 if [ ! -d "$HOME/.ssh" ]; then
 	mkdir "$HOME/.ssh"
 	chmod 700 "$HOME/.ssh"
