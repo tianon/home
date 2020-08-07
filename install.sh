@@ -23,6 +23,9 @@ if [ ! -d "$HOME/.ssh" ]; then
 	mkdir "$HOME/.ssh"
 	chmod 700 "$HOME/.ssh"
 fi
+if [ ! -d "$HOME/.ssh/sockets" ]; then
+	mkdir "$HOME/.ssh/sockets"
+fi
 
 for f in "${!files[@]}"; do
 	if [ ! -e "$f" ] || ! grep -q "$thisDir" "$f"; then
