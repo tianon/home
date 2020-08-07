@@ -1,5 +1,24 @@
 # vim:set ft=gitconfig:
-# TODO moar gitconfig
+
+[branch]
+	autoSetupMerge = true
+	autoSetupRebase = always
 
 [core]
 	editor = vim
+	pager = less --quit-if-one-screen --no-init
+
+[diff]
+	colorMoved = dimmed_zebra
+	renameLimit = 0
+	renames = copies
+
+[push]
+	default = upstream
+
+[rebase]
+	autoStash = true
+	missingCommitsCheck = warn
+
+[tag]
+	sort = creatordate
