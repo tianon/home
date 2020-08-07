@@ -1,6 +1,3 @@
-scriptencoding utf-8
-" ^^ this should be the first line, always
-
 set nobackup       " no backup files
 set nowritebackup  " seriously, stahp with the backup files
 set noswapfile     " no swap files

@@ -10,7 +10,6 @@ declare -A files=(
 	["$HOME/.inputrc"]="\$include $thisDir/inputrc"
 	["$HOME/.ssh/config"]="Include $thisDir/ssh-config.d/*"
 	["$HOME/.tmux.conf"]="source-file '$thisDir/tmux.conf'"
-	["$HOME/.vimrc"]="source $thisDir/vimrc"
 )
 
 if [ ! -d "$HOME/.ssh" ]; then
@@ -19,16 +18,6 @@ if [ ! -d "$HOME/.ssh" ]; then
 fi
 
 for f in "${!files[@]}"; do
-	if [[ "$f" == */.vimrc ]]; then
-		# if the vimrc doesn't exist yet, add the UTF-8 header
-		if [ ! -s "$f" ]; then
-			cat >> "$f" <<-'EOH'
-				scriptencoding utf-8
-				" ^^ this should be the first line, always
-			EOH
-		fi
-	fi
-
 	if [ ! -e "$f" ] || ! grep -q "$thisDir" "$f"; then
 		line="${files[$f]}"
 		printf "updating %q -- %s\n" "$f" "$line"
