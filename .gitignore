@@ -12,4 +12,5 @@
 #    Use -f if you really want to add them.
 # 
 
+git-config.d/personal**
 ssh-config.d/*

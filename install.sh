@@ -9,6 +9,7 @@ fi
 
 declare -A files=(
 	["$HOME/.bashrc"]="source '$thisDir/bashrc'"
+	["$HOME/.gitconfig"]=$'[include]\n\t'"path = $thisDir/git-config"
 	["$HOME/.inputrc"]="\$include $thisDir/inputrc"
 	["$HOME/.ssh/config"]="Include $thisDir/ssh-config.d/*"
 	["$HOME/.tmux.conf"]="source-file '$thisDir/tmux.conf'"
@@ -30,7 +31,7 @@ fi
 for f in "${!files[@]}"; do
 	if [ ! -e "$f" ] || ! grep -q "$thisDir" "$f"; then
 		line="${files[$f]}"
-		printf "updating %q -- %s\n" "$f" "$line"
+		printf "updating %q -- %s\n" "$f" "${line//$'\n'/\\n}"
 		if [ -s "$f" ]; then
 			echo >> "$f"
 		fi
