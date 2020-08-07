@@ -4,6 +4,14 @@
 	autoSetupMerge = true
 	autoSetupRebase = always
 
+[color "grep"]
+	# to match standard grep colors
+	filename = magenta
+	linenumber = green
+
+[color "status"]
+	header = yellow
+
 [core]
 	editor = vim
 	pager = less --quit-if-one-screen --no-init
