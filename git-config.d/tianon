@@ -1,13 +1,11 @@
 # vim:set ft=gitconfig:
-
 # For my usage, I symlink this file as "personal" (see "git-config" one level up).
-
 # I chose to structure it this way so that users don't clone my ~/home, install it, and then accidentally start commiting with their user.name + user.email set as me. :D
 # (But I still wanted my files to be available for other people to see *how* I choose to use this.)
 
 [user]
-	name = Tianon Gravi
 	email = admwiggin@gmail.com
+	name = Tianon Gravi
 
 [includeIf "gitdir:~/debian/**"]
 	path = tianon-debian

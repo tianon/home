@@ -1,5 +1,4 @@
 # vim:set ft=gitconfig:
-
 # TODO if only there were a generic way to "git-config.d" that doesn't involve generated files ;.;
 #   ("path = git-config.d/*" or somesuch)
 

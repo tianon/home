@@ -1,0 +1,96 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+# inspired by https://blog.wizardsoftheweb.pro/sort-git-config/
+# adpated to handle "[include(If)]" sections (which are position/order dependent), comments, and more syntax edge cases :D
+
+file="$1"; shift
+
+write=
+if [ "$file" = '-w' ]; then
+	file="$1"; shift
+	write=1
+	exec > "$file.sorted"
+fi
+
+gawk '
+	BEGIN {
+		section = ""
+		sort = 0
+		line = ""
+		comment = 0
+	}
+
+	function parseline() {
+		gsub(/^[[:space:]]+|[[:space:]]+$/, "", line)
+		if (line) {
+			# "[include(If)]" sections are position/order dependent (so we add an extra "sort" column to ensure they stay in the correct order and everything "pivot sorts" around them)
+			if (section ~ /^\[include/) { sort++ }
+
+			if (match(line, /^\[[^\]]+\]/, m)) {
+				section = m[0]
+				line = substr(line, length(section) + 1)
+				gsub(/^[[:space:]]+/, "", line)
+			}
+
+			if (line) {
+				# normalize comment character and make sure they stay "in order"
+				if (match(line, /^[;#]/, m)) {
+					line = "#" sprintf("%03d", comment) substr(line, length(m[0]) + 1)
+					comment++
+				}
+
+				printf "sort%03d\t%s\t%s\n", sort, section, line
+			}
+		}
+		line = ""
+	}
+
+	{
+		# handle line continuations (but only for non-comment lines)
+		line = line $0
+		if (line !~ /^[[:space:]]*[;#]/ && line ~ /\\$/) {
+			gsub(/\\$/, "", line)
+			next
+		}
+		parseline()
+	}
+
+	END {
+		# line continuation at EOF?????????  MONSTER.
+		parseline()
+	}
+' "$file" | LC_ALL=C sort -u | gawk -F '\t' '
+	BEGIN {
+		section = ""
+		printed = 0
+	}
+
+	$2 != section {
+		section = $2
+		if (printed) {
+			printf "\n"
+		}
+		printf "%s\n", section
+	}
+
+	{
+		printed = 1
+		if (match($3, /^#[0-9]{3}/, m)) {
+			# remove comment ordering numbers
+			$3 = "#" substr($3, length(m[0]) + 1)
+		}
+		for (i = 3; i <= NF; i++) {
+			if (section || i > 3) {
+				printf "\t"
+			}
+			printf "%s", $i
+		}
+		printf "\n"
+	}
+'
+
+if [ -n "$write" ]; then
+	exec >&-
+	mv -f "$file.sorted" "$file"
+fi
