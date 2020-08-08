@@ -7,9 +7,6 @@ set noexpandtab tabstop=4 shiftwidth=4
 " highlight strings inside C comments
 let c_comment_strings = 1
 
-" RAINBOWS (see https://github.com/luochen1990/rainbow)
-let g:rainbow_active = 1
-
 " if it's .sh, it's bash
 let g:bash_is_sh = 1
 let g:is_bash = 1
