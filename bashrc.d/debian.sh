@@ -1,7 +1,7 @@
 uid="$(id -un 2>/dev/null || :)"
 if [ "$uid" = 'tianon' ]; then
-	: "${DEBFULLNAME:='Tianon Gravi'}"
-	: "${DEBEMAIL:='tianon@debian.org'}"
+	: "${DEBFULLNAME:=Tianon Gravi}"
+	: "${DEBEMAIL:=tianon@debian.org}"
 	export DEBFULLNAME DEBEMAIL
 fi
 unset uid
