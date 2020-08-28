@@ -3,6 +3,7 @@ set nowritebackup  " seriously, stahp with the backup files
 set noswapfile     " no swap files
 
 set noexpandtab tabstop=4 shiftwidth=4
+set nohlsearch
 
 " highlight strings inside C comments
 let c_comment_strings = 1
