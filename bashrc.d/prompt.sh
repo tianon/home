@@ -13,6 +13,12 @@ _tianon_titlebar_cmd() {
 		}
 	'
 }
+if ! command -v __git_ps1 > /dev/null; then
+	if [ -s /usr/share/git/git-prompt.sh ]; then
+		# Gentoo is fun: https://bugs.gentoo.org/477920 + https://bugs.gentoo.org/507480
+		source /usr/share/git/git-prompt.sh
+	fi
+fi
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWUNTRACKEDFILES=1
@@ -35,7 +41,8 @@ _tianon_prompt_extra() {
 		extraBits+="bashbrew:$BASHBREW_ARCH"
 	fi
 
-	local gitBits="$(__git_ps1 '%s' 2>/dev/null)"
+	# see above for where we try a little harder to ensure __git_ps1 is set (but ignore errors here in case it doesn't or it fails)
+	local gitBits; gitBits="$(__git_ps1 '%s' 2>/dev/null || :)"
 	if [ -n "$gitBits" ]; then
 		[ -z "$extraBits" ] || extraBits+='; '
 		extraBits+="$gitBits"
