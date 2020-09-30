@@ -33,6 +33,9 @@ gawk '
 				section = m[0]
 				line = substr(line, length(section) + 1)
 				gsub(/^[[:space:]]+/, "", line)
+
+				# https://github.com/tianon/home/issues/1
+				gsub(/ /, "|", section)
 			}
 
 			if (line) {
@@ -73,7 +76,12 @@ gawk '
 		if (printed) {
 			printf "\n"
 		}
-		printf "%s\n", section
+
+		# https://github.com/tianon/home/issues/1
+		printSection = section
+		gsub(/[|]/, " ", printSection)
+
+		printf "%s\n", printSection
 	}
 
 	{
