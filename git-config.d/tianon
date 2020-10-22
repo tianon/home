@@ -3,6 +3,9 @@
 # I chose to structure it this way so that users don't clone my ~/home, install it, and then accidentally start commiting with their user.name + user.email set as me. :D
 # (But I still wanted my files to be available for other people to see *how* I choose to use this.)
 
+[pull]
+	ff = true
+
 [user]
 	email = admwiggin@gmail.com
 	name = Tianon Gravi
