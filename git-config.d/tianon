@@ -4,7 +4,7 @@
 # (But I still wanted my files to be available for other people to see *how* I choose to use this.)
 
 [pull]
-	ff = true
+	ff = only
 
 [user]
 	email = admwiggin@gmail.com
