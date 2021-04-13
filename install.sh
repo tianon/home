@@ -41,7 +41,7 @@ done
 
 for d in "$HOME/.vim/pack" "$HOME/.config/nvim/pack"; do
 	if [ ! -d "$d/tianon" ]; then
-		mkdir -p "$d"
-		ln -sfT "$thisDir/vim-pack-tianon" "$d/tianon"
+		mkdir -pv "$d"
+		ln -svfT "$thisDir/vim-pack-tianon" "$d/tianon"
 	fi
 done
