@@ -14,3 +14,5 @@
 
 git-config.d/personal**
 ssh-config.d/*
+
+bin/_youtube-dl
