@@ -26,6 +26,11 @@ export GIT_PS1_SHOWUPSTREAM=1
 _tianon_prompt_extra() {
 	local extraBits=
 
+	if [ "${#DIRSTACK[@]}" -gt 1 ]; then
+		[ -z "$extraBits" ] || extraBits+='; '
+		extraBits+="pushd:${#DIRSTACK[@]}"
+	fi
+
 	if [ -n "${WSL_DISTRO_NAME:-}" ]; then
 		[ -z "$extraBits" ] || extraBits+='; '
 		extraBits+="wsl:$WSL_DISTRO_NAME"
