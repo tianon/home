@@ -21,6 +21,9 @@
 	renameLimit = 0
 	renames = copies
 
+[init]
+	defaultBranch = main
+
 [push]
 	default = upstream
 
