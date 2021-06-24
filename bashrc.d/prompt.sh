@@ -111,6 +111,7 @@ if [ -n "$color" ]; then
 	unset numColors
 fi
 
+# TODO make "tianon" here customizable
 user="$(id -un 2>/dev/null || :)"
 if [ "$user" != 'tianon' ] && [ -n "${colors[non_tianon_user]:-}" ]; then
 	# if I'm not "tianon" make it more obvious
