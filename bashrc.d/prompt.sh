@@ -78,7 +78,9 @@ declare -A colors=(
 	[path]='' # ~/docker/...
 	[extra]='' # (master=)
 )
+# these two have to be separate because they're used from a function (after "colors" is unset)
 _tianon_dollar_color= # $
+_tianon_dollar_color_failed= # $ (when the previous command failed)
 if [ -n "$color" ]; then
 	colors=(
 		[reset]='\e[m'
@@ -94,6 +96,7 @@ if [ -n "$color" ]; then
 		[non_tianon_user]='\e[4;93m' # steam@..., root@..., etc
 	)
 	_tianon_dollar_color='\e[0;31m' # $
+	_tianon_dollar_color_failed='\e[1;33m' # $ (when the previous command failed)
 	numColors="$(tput colors 2>/dev/null || :)"
 	case "${numColors:-8}" in
 		256)
@@ -106,6 +109,7 @@ if [ -n "$color" ]; then
 			colors[extra]='\e[0;38;5;100m'
 			colors[non_tianon_user]='\e[4;38;5;15m'
 			_tianon_dollar_color='\e[0;38;5;201m'
+			_tianon_dollar_color_failed='\e[1;38;5;220m'
 			;;
 	esac
 	unset numColors
@@ -124,7 +128,7 @@ _tianon_prompt_dollar_color() {
 		echo -e "$_tianon_dollar_color"
 	else
 		# if the previous command failed, change the prompt color
-		echo -e '\e[1;33m'
+		echo -e "$_tianon_dollar_color_failed"
 	fi
 }
 
