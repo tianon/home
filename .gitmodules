@@ -31,3 +31,6 @@
 [submodule "vim-pack-tianon/start/vim-docker"]
 	path = vim-pack-tianon/start/vim-docker
 	url = https://github.com/tianon/vim-docker.git
+[submodule "vim-pack-tianon/start/vim-jq"]
+	path = vim-pack-tianon/start/vim-jq
+	url = https://github.com/bfrg/vim-jq.git
