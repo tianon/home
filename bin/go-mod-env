@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+# GOTOOLCHAIN: https://go.dev/doc/toolchain
+: "${CGO_ENABLED=0}" "${GOTOOLCHAIN=local}"
+export CGO_ENABLED GOTOOLCHAIN
+
+self="$(basename "$0")"
+args=(
+	-i --rm --init
+	-v "$PWD":/wd -w /wd
+	-u "$(id -u):$(id -g)"
+	-e HOME=/tmp
+	#-v "$self-home":/tmp
+
+	# "go mod" cache is stored in /go/pkg/mod/cache
+	-e GOPATH=/go
+	-v "$self-gopath":/go
+	-e GOCACHE=/go/.cache
+
+	# https://proxy.golang.org/
+	-e GOPROXY='https://proxy.golang.org'
+
+	-e CGO_ENABLED
+	-e GO386
+	-e GOAMD64
+	-e GOARCH
+	-e GOARM
+	-e GOFLAGS
+	-e GOOS
+	-e GOTOOLCHAIN
+)
+
+if [ -t 0 ] && [ -t 1 ]; then
+	args+=( --tty -e TERM )
+fi
+
+exec docker run "${args[@]}" "${GOLANG_IMAGE:-golang}" "$@"
