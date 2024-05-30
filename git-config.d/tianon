@@ -10,5 +10,8 @@
 	email = admwiggin@gmail.com
 	name = Tianon Gravi
 
+[includeIf "gitdir:~/git/debian/**"]
+	path = tianon-debian
+
 [includeIf "gitdir:~/debian/**"]
 	path = tianon-debian
