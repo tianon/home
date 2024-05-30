@@ -21,3 +21,10 @@ cdup-git() {
 			;;
 	esac
 }
+
+unset-docker() {
+	local var
+	for var in "${!DOCKER_@}"; do
+		unset "$var"
+	done
+}
