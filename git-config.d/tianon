@@ -12,6 +12,3 @@
 
 [includeIf "gitdir:~/debian/**"]
 	path = tianon-debian
-
-[includeIf "gitdir:~/infosiftr/**"]
-	path = tianon-infosiftr
