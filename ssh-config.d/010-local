@@ -1,0 +1,4 @@
+# allow for per-host ~/.ssh/config.d when this clone of https://github.com/tianon/home is auto-synchronized between machines
+Include ~/.ssh/config.d/*
+
+# vim:set ft=sshconfig:
