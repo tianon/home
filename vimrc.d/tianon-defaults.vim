@@ -20,6 +20,7 @@ let g:markdown_fenced_languages = [
 			\ 'go',
 			\ 'html',
 			\ 'ini=dosini',
+			\ 'json',
 			\ 'perl',
 			\ 'python',
 			\ 'sh',
