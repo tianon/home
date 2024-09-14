@@ -11,7 +11,7 @@ declare -A files=(
 	["$HOME/.bashrc"]="source '$thisDir/bashrc'"
 	["$HOME/.gitconfig"]=$'[include]\n\t'"path = $thisDir/git-config"
 	["$HOME/.inputrc"]="\$include $thisDir/inputrc"
-	["$HOME/.ssh/config"]="Include $thisDir/ssh-config.d/*"
+	["$HOME/.ssh/config"]="Include $thisDir/ssh-config.d/*" # TODO this should only be done if the permissions on "ssh-config.d" are such that it will actually work (SSH is very picky and if permissions are bad this will make "ssh" literally fail to do *anything* which is not ideal)
 	["$HOME/.tmux.conf"]="source-file '$thisDir/tmux.conf'"
 )
 
