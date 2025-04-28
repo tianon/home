@@ -27,35 +27,29 @@ _tianon_prompt_extra() {
 	local extraBits=
 
 	if [ "${#DIRSTACK[@]}" -gt 1 ]; then
-		[ -z "$extraBits" ] || extraBits+='; '
-		extraBits+="pushd:${#DIRSTACK[@]}"
+		extraBits+="${extraBits:+; }pushd:${#DIRSTACK[@]}"
 	fi
 
 	if [ -n "${WSL_DISTRO_NAME:-}" ]; then
-		[ -z "$extraBits" ] || extraBits+='; '
-		extraBits+="wsl:$WSL_DISTRO_NAME"
+		extraBits+="${extraBits:+; }wsl:$WSL_DISTRO_NAME"
 	fi
 
 	# https://github.com/docker/cli/blob/fb261fdd0cb890ef05b113d482faf5f8480dc959/cli/command/cli.go#L412-L432
 	# (DOCKER_HOST has higher precedence than DOCKER_CONTEXT)
 	if [ -n "${DOCKER_HOST:-}" ]; then
-		[ -z "$extraBits" ] || extraBits+='; '
-		extraBits+="$DOCKER_HOST"
+		extraBits+="${extraBits:+; }$DOCKER_HOST"
 	elif [ -n "${DOCKER_CONTEXT:-}" ]; then
-		[ -z "$extraBits" ] || extraBits+='; '
-		extraBits+="docker:$DOCKER_CONTEXT"
+		extraBits+="${extraBits:+; }docker:$DOCKER_CONTEXT"
 	fi
 
 	if [ -n "${BASHBREW_ARCH:-}" ]; then
-		[ -z "$extraBits" ] || extraBits+='; '
-		extraBits+="bashbrew:$BASHBREW_ARCH"
+		extraBits+="${extraBits:+; }bashbrew:$BASHBREW_ARCH"
 	fi
 
 	# see above for where we try a little harder to ensure __git_ps1 is set (but ignore errors here in case it doesn't or it fails)
 	local gitBits; gitBits="$(__git_ps1 '%s' 2>/dev/null || :)"
 	if [ -n "$gitBits" ]; then
-		[ -z "$extraBits" ] || extraBits+='; '
-		extraBits+="$gitBits"
+		extraBits+="${extraBits:+; }$gitBits"
 	fi
 
 	if [ -n "$extraBits" ]; then
