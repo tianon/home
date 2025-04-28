@@ -36,9 +36,14 @@ _tianon_prompt_extra() {
 		extraBits+="wsl:$WSL_DISTRO_NAME"
 	fi
 
+	# https://github.com/docker/cli/blob/fb261fdd0cb890ef05b113d482faf5f8480dc959/cli/command/cli.go#L412-L432
+	# (DOCKER_HOST has higher precedence than DOCKER_CONTEXT)
 	if [ -n "${DOCKER_HOST:-}" ]; then
 		[ -z "$extraBits" ] || extraBits+='; '
 		extraBits+="$DOCKER_HOST"
+	elif [ -n "${DOCKER_CONTEXT:-}" ]; then
+		[ -z "$extraBits" ] || extraBits+='; '
+		extraBits+="docker:$DOCKER_CONTEXT"
 	fi
 
 	if [ -n "${BASHBREW_ARCH:-}" ]; then
