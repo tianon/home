@@ -5,6 +5,11 @@ set noswapfile     " no swap files
 set noexpandtab tabstop=4 shiftwidth=4
 set nohlsearch
 
+" the default 'tabpagemax' in neovim is 50
+" if I ask for tabs with `vim -p`, I want tabs
+" (even if I've asked for an obscene number of them)
+set tabpagemax=200
+
 " highlight strings inside C comments
 let c_comment_strings = 1
 
